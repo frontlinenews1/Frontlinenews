@@ -79,25 +79,29 @@
 </head>
 <body>
   <div class="site">
-    <header>
-      <div class="brand">
-        <div class="logo">
-  <img src="logo.jpg" alt="WarNews logo" style="width:48px; height:48px; border-radius:10px;">
-</div>
+   <header>
+  <div class="brand">
+    <div class="logo">
+      <img src="logo.jpg" alt="WarNews logo" style="width:48px; height:48px; border-radius:10px;">
+    </div>
+    <div>
+      <h1>FrontLineNews</h1>
+      <div class="tagline">Field reports • Analysis • Verified updates</div>
+    </div>
+  </div>
 
-          <h1>FrontLineNews</h1>
-          <div class="tagline">Field reports • Analysis • Verified updates</div>
-        </div>
-      </div>
+  <div class="controls">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"></circle>
+      </svg>
+      <input id="q" placeholder="Search headlines, places, tags..." />
+    </div>
+    <button id="darkToggle" class="btn" title="Toggle dark/light">🌙</button>
+  </div>
+</header>
 
-      <div class="controls">
-        <div class="search" role="search">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"></circle></svg>
-          <input id="q" placeholder="Search headlines, places, tags..." />
-        </div>
-        <button id="darkToggle" class="btn" title="Toggle dark/light">🌙</button>
-      </div>
-    </header>
 
     <main>
       <section class="hero">
