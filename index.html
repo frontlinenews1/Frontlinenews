@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WarNews — Frontline News, Analysis</title>
+  <meta name="description" content="Concise updates and analysis from conflict zones. Clean, fast, open-source blog template for GitHub Pages." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1320; --muted:#9aa4b2; --accent:#e53e3e; --glass: rgba(255,255,255,0.03);
+      --max-w:1100px; --radius:12px; --gap:18px; --ff-base: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0; font-family:var(--ff-base); background:linear-gradient(180deg,#071226 0%, var(--bg) 100%); color:#e6eef6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      line-height:1.5; padding:40px 20px;
+      display:flex; justify-content:center;
+    }
+
+    .site{width:100%; max-width:var(--max-w)}
+
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px;
+    }
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{width:48px; height:48px; border-radius:10px; background:linear-gradient(135deg,var(--accent),#ff7a7a); display:flex; align-items:center; justify-content:center; font-weight:700; font-family:'Roboto Slab', serif}
+    h1{font-size:18px; margin:0}
+    .tagline{color:var(--muted); font-size:13px}
+
+    nav{display:flex; gap:12px; align-items:center}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06); padding:8px 12px; border-radius:10px; color:inherit; cursor:pointer; font-weight:600}
+
+    .controls{display:flex; gap:12px; align-items:center}
+    .search{background:var(--glass); border-radius:12px; padding:8px 10px; display:flex; align-items:center; gap:8px; min-width:200px}
+    .search input{background:transparent;border:0; outline:none; color:inherit; width:100%; font-size:14px}
+
+    main{display:grid; grid-template-columns:1fr 320px; gap:var(--gap)}
+
+    .hero{
+      grid-column:1/-1; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:var(--radius); padding:20px; display:flex; gap:18px; align-items:center; box-shadow: 0 6px 20px rgba(2,6,23,0.6);
+    }
+    .hero-left{flex:1}
+    .hero h2{margin:0 0 6px 0; font-family:'Roboto Slab', serif}
+    .hero p{margin:0; color:var(--muted)}
+    .hero-cta{background:var(--accent); color:white; padding:10px 14px; border-radius:10px; font-weight:700; border:0; cursor:pointer}
+
+    .posts{display:grid; gap:14px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:12px; padding:14px; display:flex; gap:12px; align-items:flex-start; border:1px solid rgba(255,255,255,0.03)}
+    .thumb{width:140px; height:92px; border-radius:8px; flex-shrink:0; background-size:cover; background-position:center}
+    .meta{font-size:13px; color:var(--muted)}
+    .title{font-weight:700; margin:6px 0 8px 0}
+    .excerpt{color:var(--muted); font-size:14px}
+
+    aside{position:relative}
+    .widget{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:14px; border-radius:12px; margin-bottom:14px; border:1px solid rgba(255,255,255,0.03)}
+    .widget h3{margin:0 0 8px 0}
+    .tag{display:inline-block; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,0.03); margin:6px 6px 0 0; font-size:13px; cursor:pointer}
+
+    footer{grid-column:1/-1; margin-top:18px; color:var(--muted); font-size:13px; text-align:center}
+
+    /* responsive */
+    @media (max-width:980px){ main{grid-template-columns:1fr} aside{order:2} .hero{flex-direction:column; align-items:flex-start} .thumb{width:120px; height:78px} }
+
+    /* post modal */\    
+    .post-modal{position:fixed; inset:0; display:none; align-items:flex-start; justify-content:center; padding:40px; background:linear-gradient(180deg, rgba(2,6,23,0.7), rgba(2,6,23,0.9)); overflow:auto}
+    .post-inner{max-width:900px; width:100%; background:linear-gradient(180deg,#071226, #081025); border-radius:14px; padding:26px; border:1px solid rgba(255,255,255,0.04)}
+    .post-inner h2{font-family:'Roboto Slab', serif}
+    .close-x{position:absolute; right:36px; top:36px; background:transparent; border:0; color:var(--muted); font-size:18px; cursor:pointer}
+
+    /* small helpers */
+    .muted{color:var(--muted)}
+
+  </style>
+</head>
+<body>
+  <div class="site">
+    <header>
+      <div class="brand">
+        <div class="logo">WN</div>
+        <div>
+          <h1>WarNews</h1>
+          <div class="tagline">Field reports • Analysis • Verified updates</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="search" role="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"></circle></svg>
+          <input id="q" placeholder="Search headlines, places, tags..." />
+        </div>
+        <button id="darkToggle" class="btn" title="Toggle dark/light">🌙</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-left">
+          <h2>Frontline updates, curated.</h2>
+          <p>Fast, minimal, and focused — a clean template for hosting conflict-zone reporting and analysis. Use it on GitHub Pages; no build step required.</p>
+        </div>
+        <div>
+          <button class="hero-cta" id="latestBtn">See latest</button>
+        </div>
+      </section>
+
+      <section>
+        <div class="posts" id="posts"></div>
+        <footer>© <span id="year"></span> WarNews — Built for speed. Fork on GitHub.</footer>
+      </section>
+
+      <aside>
+        <div class="widget">
+          <h3>Top tags</h3>
+          <div id="tags"></div>
+        </div>
+
+        <div class="widget">
+          <h3>Subscribe</h3>
+          <p class="muted">Add a simple email form that posts to your mailing provider. This template keeps it local.</p>
+          <input id="email" placeholder="you@domain.com" style="width:100%; padding:10px; border-radius:8px; border:0; margin-top:8px; background:rgba(255,255,255,0.02); color:inherit" />
+          <button class="btn" style="width:100%; margin-top:8px;">Subscribe</button>
+        </div>
+
+        <div class="widget">
+          <h3>About</h3>
+          <p class="muted">Lightweight HTML/CSS/JS template for quick GitHub Pages deployments. Edit posts in the <code>postsData</code> array.</p>
+        </div>
+      </aside>
+
+    </main>
+  </div>
+
+  <!-- Post modal -->
+  <div class="post-modal" id="postModal" aria-hidden="true">
+    <button class="close-x" id="closeModal">✕</button>
+    <article class="post-inner" id="postInner"></article>
+  </div>
+
+  <script>
+    // -------- Sample posts data (edit for GitHub Pages) --------
+    const postsData = [
+      {
+        id:1,
+        title:"Clashes near Riverfront: Command confirms losses",
+        date:"2025-09-14",
+        author:"Field Correspondent",
+        tags:["ground","eastern front"],
+        excerpt:"Armed units engaged in heavy fighting near the riverfront yesterday; command confirmed casualties on both sides.",
+        image:"https://images.unsplash.com/photo-1541534401786-0c1a2a0b0a48?q=80&w=140&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder",
+        body:`<p>At dawn, clashes reignited along the riverfront. Local authorities report disrupted supply lines and civilian evacuations. Eyewitnesses describe sustained artillery fire and urban fighting.</p>
+               <p class=\"muted\">This report consolidates local sources and official statements as of ${new Date().toISOString().slice(0,10)}.</p>`
+      },
+      {
+        id:2,
+        title:"Humanitarian corridor opens — limited access",
+        date:"2025-09-13",
+        author:"Analyst",
+        tags:["humanitarian","diplomacy"],
+        excerpt:"A limited corridor opened to allow civilians to evacuate; aid groups report constrained operations.",
+        image:"https://images.unsplash.com/photo-1508672019048-805c876b67e2?q=80&w=140&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder",
+        body:`<p>Negotiations resulted in a temporary corridor. Access remains limited due to security concerns and broken infrastructure.</p>`
+      }
+    ];
+
+    // ---------- Render posts ----------
+    const postsEl = document.getElementById('posts');
+    const tagsEl = document.getElementById('tags');
+    const q = document.getElementById('q');
+
+    function renderPosts(list){
+      postsEl.innerHTML = '';
+      list.forEach(p=>{
+        const div = document.createElement('div'); div.className='card';
+        div.innerHTML = `
+          <div class=\"thumb\" style=\"background-image:url('${p.image}')\"></div>
+          <div style=\"flex:1\"> 
+            <div class=\"meta\">${p.date} · ${p.author}</div>
+            <div class=\"title\">${p.title}</div>
+            <div class=\"excerpt\">${p.excerpt}</div>
+          </div>
+        `;
+        div.addEventListener('click',()=>openPost(p));
+        postsEl.appendChild(div);
+      });
+    }
+
+    // -------- tags --------
+    function buildTags(data){
+      const set = new Set(); data.forEach(p=>p.tags.forEach(t=>set.add(t)));
+      tagsEl.innerHTML=''; Array.from(set).slice(0,20).forEach(t=>{
+        const b = document.createElement('button'); b.className='tag'; b.textContent=t; b.addEventListener('click',()=>filterByTag(t)); tagsEl.appendChild(b);
+      })
+    }
+
+    function filterByTag(tag){
+      const filtered = postsData.filter(p=>p.tags.includes(tag)); renderPosts(filtered);
+    }
+
+    // -------- search --------
+    q.addEventListener('input', e=>{
+      const term = e.target.value.toLowerCase();
+      const filtered = postsData.filter(p => (p.title+p.excerpt+p.tags.join(' ')).toLowerCase().includes(term));
+      renderPosts(filtered);
+    });
+
+    // -------- post modal --------
+    const modal = document.getElementById('postModal');
+    const postInner = document.getElementById('postInner');
+    const closeModal = document.getElementById('closeModal');
+
+    function openPost(p){
+      postInner.innerHTML = `<h2>${p.title}</h2><div class=\"muted\">${p.date} · ${p.author} · ${p.tags.map(t=>'#'+t).join(' ')}</div><hr style=\"border:none;height:1px;background:rgba(255,255,255,0.04);margin:12px 0\">${p.body}`;
+      modal.style.display='flex'; modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+    }
+    closeModal.addEventListener('click',()=>{ modal.style.display='none'; modal.setAttribute('aria-hidden','true'); document.body.style.overflow='auto'; });
+    modal.addEventListener('click',(e)=>{ if(e.target===modal) closeModal.click(); });
+
+    // -------- small UX bits --------
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('latestBtn').addEventListener('click',()=>renderPosts(postsData));
+
+    // -------- dark toggle (simple) --------
+    const darkToggle = document.getElementById('darkToggle');
+    let dark = true;
+    darkToggle.addEventListener('click', ()=>{
+      dark = !dark;
+      if(dark){ document.documentElement.style.setProperty('--bg','#0f1724'); document.documentElement.style.setProperty('--card','#0b1320'); darkToggle.textContent='🌙' }
+      else { document.documentElement.style.setProperty('--bg','#f6f7fb'); document.documentElement.style.setProperty('--card','#ffffff'); darkToggle.textContent='☀️' }
+    });
+
+    // Initial render
+    renderPosts(postsData);
+    buildTags(postsData);
+
+    // -------- Notes for deployment --------
+    // - Save this file as `index.html` in the root of your GitHub Pages repo (or in gh-pages branch). No build step.
+    // - Edit postsData in this file or move data to a separate JSON file and fetch it if you prefer.
+    // - Replace placeholder images with your own or a local /assets/ folder.
+  </script>
+</body>
+</html>
